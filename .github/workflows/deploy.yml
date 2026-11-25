@@ -1,0 +1,21 @@
+
+name: Flask CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository code
+        uses: actions/checkout@v4
+
+      - name: Check Python version
+        run: python3 --version
+
+      - name: Check Docker version
+        run: docker --version
