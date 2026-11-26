@@ -56,3 +56,11 @@ jobs:
             sleep 2
           done
           exit 1
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Push Docker image to ECR
+        run: |
+          docker tag flask-devops:test 138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:${{ github.sha }}
+          docker push 138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:${{ github.sha }}
