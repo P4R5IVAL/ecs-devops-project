@@ -1,0 +1,23 @@
+
+{
+    "family": "flask-terraform-task",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": ["FARGATE"],
+    "cpu": "256",
+    "memory": "512",
+    "executionRoleArn": "arn:aws:iam::138720667855:role/ecsTaskExecutionRole",
+    "containerDefinitions": [
+      {
+        "name": "flask-container",
+        "image": "138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:v1",
+        "essential": true,
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "protocol": "tcp"
+          }
+        ]
+      }
+    ]
+  }
+  

@@ -64,3 +64,19 @@ jobs:
         run: |
           docker tag flask-devops:test 138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:${{ github.sha }}
           docker push 138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:${{ github.sha }}
+
+      - name: Update ECS task definition with new image
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: flask-container
+          image: 138720667855.dkr.ecr.eu-west-2.amazonaws.com/flask-devops:${{ github.sha }}
+
+      - name: Deploy new task definition to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: flask-terraform-service
+          cluster: flask-terraform-cluster
+          wait-for-service-stability: true
